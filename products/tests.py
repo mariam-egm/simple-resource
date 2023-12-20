@@ -31,3 +31,12 @@ class ProductAPITests(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['name'], 'Test Product')
+
+
+    def test_update_product(self):
+        product = Product.objects.create(name='Old Name', description='Old Description')
+        data = {'name': 'New Name', 'description': 'New Description'}
+        response = self.client.put(f'/resource/{product.id}/', data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Product.objects.get().name, 'New Name')
