@@ -14,3 +14,12 @@ class ProductAPITests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Product.objects.count(), 1)
         self.assertEqual(Product.objects.get().name, 'Test Product')
+
+    def test_get_product_list(self):
+        Product.objects.create(name='Product 1', description='Description 1')
+        Product.objects.create(name='Product 2', description='Description 2')
+
+        response = self.client.get('/resource/')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 2)
