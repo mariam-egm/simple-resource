@@ -40,3 +40,10 @@ class ProductAPITests(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Product.objects.get().name, 'New Name')
+
+    def test_delete_product(self):
+        product = Product.objects.create(name='Product to Delete', description='Description to Delete')
+        response = self.client.delete(f'/resource/{product.id}/')
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Product.objects.count(), 0)
